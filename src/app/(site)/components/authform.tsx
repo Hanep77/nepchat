@@ -2,8 +2,9 @@
 
 import Input from "@/app/components/input";
 import axios from "axios";
-import { signIn } from "next-auth/react";
-import { FormEvent, useCallback, useState } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 
 type Variant = "LOGIN" | "REGISTER";
@@ -15,11 +16,19 @@ type AuthType = {
 }
 
 export default function AuthForm() {
+  const session = useSession();
+  const router = useRouter();
   const [variant, setVariant] = useState<Variant>("LOGIN");
 
   const toggleVariant = useCallback(() => {
     variant == "LOGIN" ? setVariant("REGISTER") : setVariant("LOGIN");
   }, [variant]);
+
+  useEffect(() => {
+    if (session?.status == 'authenticated') {
+      router.push('/users');
+    }
+  }, [session]);
 
   const authRequest = (formData: FormData) => {
     const user = {
@@ -30,6 +39,7 @@ export default function AuthForm() {
 
     if (variant == "REGISTER") {
       axios.post('/api/register', user)
+        .then(() => signIn('credentials', user));
     }
 
     if (variant == "LOGIN") {
@@ -43,10 +53,23 @@ export default function AuthForm() {
           }
 
           if (callback?.ok) {
-            alert('Login Success')
+            router.push('/users');
           }
         })
     }
+  }
+
+  const socialAuth = (action: string) => {
+    signIn(action, { redirect: false })
+      .then(callback => {
+        if (callback?.error) {
+          alert('Invalid Credentials');
+        }
+
+        if (callback?.ok) {
+          router.push('/users');
+        }
+      })
   }
 
   return (
@@ -74,8 +97,14 @@ export default function AuthForm() {
           <div className="border-t border-zinc-300 flex-grow" />
         </div>
         <div className="grid grid-cols-2 gap-1">
-          <button type="button" className="border border-zinc-600 flex items-center justify-center gap-1 py-1 rounded hover:bg-zinc-600 text-zinc-600 hover:text-white"><BsGithub /> Github</button>
-          <button type="button" className="border border-red-600 flex items-center justify-center gap-1 py-1 rounded hover:bg-red-600 text-red-600 hover:text-white"><BsGoogle /> Goggle</button>
+          <button type="button" onClick={() => socialAuth('github')}
+            className="border border-zinc-600 flex items-center justify-center gap-1 py-1 rounded hover:bg-zinc-600 text-zinc-600 hover:text-white">
+            <BsGithub /> Github
+          </button>
+          <button type="button" onClick={() => socialAuth('google')}
+            className="border border-red-600 flex items-center justify-center gap-1 py-1 rounded hover:bg-red-600 text-red-600 hover:text-white">
+            <BsGoogle /> Goggle
+          </button>
         </div>
       </form>
     </div>

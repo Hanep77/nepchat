@@ -1,6 +1,8 @@
-import type { Metadata } from "next";
+"use client"
+
 import localFont from "next/font/local";
 import "./globals.css";
+import AuthContext from "@/context/authContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -13,10 +15,6 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export const metadata: Metadata = {
-  title: "NepChat",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -25,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-zinc-200`}>
-        {children}
+        <AuthContext>
+          {children}
+        </AuthContext>
       </body>
     </html>
   );

@@ -8,6 +8,7 @@ export default withAuth({
 
 export const config = {
   matcher: [
-    '/users/:path*'
+    '/chat/:path*',
+    '/search/:path*',
   ]
 };

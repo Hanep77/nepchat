@@ -13,13 +13,12 @@ export default function UserBox({ user }: { user: User }) {
       userId: user.id
     })
       .then(data => {
-        console.log(data)
-        // router.push('/chat/' + data.data.id);
+        router.push('/chat/' + data.data.id);
       })
   }, [user]);
 
   return (
-    <button onClick={handleClick} className="bg-zinc-800 rounded py-1 px-2 font-medium text-start">
+    <button onClick={handleClick} className="bg-zinc-800 rounded py-1 px-2 border border-zinc-700 font-medium text-start">
       {user.name}
     </button>
   )

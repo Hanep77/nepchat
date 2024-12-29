@@ -1,5 +1,6 @@
 import getConversationById from "@/actions/getConversationByid";
 import MessageInput from "../components/messageInput";
+import getCurrentUser from "@/actions/getCurrentUser";
 
 export interface IParams {
   conversationId: string
@@ -79,6 +80,7 @@ const data = {
 export default async function Chat({ params }: { params: Promise<IParams> }) {
   const { conversationId } = await params;
   const conversation = await getConversationById(conversationId);
+  const currentUser = await getCurrentUser();
   console.log(conversation);
 
   return (
@@ -94,19 +96,20 @@ export default async function Chat({ params }: { params: Promise<IParams> }) {
         </div>
       </div>
 
-      <div className="px-4 py-4 w-full overflow-y-auto">
-        {data.messages.map((message, index) => (
-          <div key={index} className={`flex ${message.sender == "me" && "justify-end"} mb-1`}>
-            <div className={`bg-zinc-800 py-2 px-4 ${message.sender == "me" ? "rounded-l-3xl rounded-tr-3xl" : "rounded-r-3xl rounded-tl-3xl"} max-w-96 text-wrap`}>
-              {message.text}
+      <div className="px-4 pt-4 pb-16 w-full overflow-y-auto">
+        {conversation?.messages.map((message, index) => (
+          <div key={index}
+            className={`flex ${message.senderId == currentUser?.id && "justify-end"} ${conversation?.messages[index - 1]?.senderId == message.senderId ? "mt-1" : "mt-2"}`}>
+            <div className={`py-2 px-4 ${message.senderId == currentUser?.id ? "rounded-l-3xl rounded-tr-3xl bg-zinc-700" : "rounded-r-3xl rounded-tl-3xl bg-zinc-800 "} max-w-96 text-wrap`}>
+              {message.body}
             </div>
           </div>
         ))}
       </div>
 
-      <div className="sticky bottom-0 py-2 flex items-center justify-center px-4 gap-4">
+      <div className="absolute w-full bottom-0 py-2 flex items-center justify-center px-4 bg-zinc-900 gap-4">
         <MessageInput conversationId={conversationId} />
       </div>
-    </div>
+    </div >
   )
 }

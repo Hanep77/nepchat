@@ -1,98 +1,30 @@
 import getConversationById from "@/actions/getConversationByid";
 import MessageInput from "../components/messageInput";
 import getCurrentUser from "@/actions/getCurrentUser";
+import { redirect } from "next/navigation";
 
 export interface IParams {
   conversationId: string
-}
-
-const data = {
-  name: "Rusdi",
-  messages: [
-    {
-      id: 1,
-      sender: "me",
-      text: "p"
-    },
-    {
-      id: 2,
-      sender: "notme",
-      text: "euy"
-    },
-    {
-      id: 3,
-      sender: "me",
-      text: "lorem ipsum dolor sit amet euy"
-    },
-    {
-      id: 1,
-      sender: "me",
-      text: "p"
-    },
-    {
-      id: 2,
-      sender: "notme",
-      text: "euy"
-    },
-    {
-      id: 3,
-      sender: "me",
-      text: "lorem ipsum dolor sit amet euy"
-    },
-    {
-      id: 1,
-      sender: "me",
-      text: "p"
-    },
-    {
-      id: 2,
-      sender: "notme",
-      text: "euy"
-    },
-    {
-      id: 3,
-      sender: "me",
-      text: "lorem ipsum dolor sit amet euy"
-    },
-    {
-      id: 1,
-      sender: "me",
-      text: "p"
-    },
-    {
-      id: 2,
-      sender: "notme",
-      text: "euy"
-    },
-    {
-      id: 3,
-      sender: "me",
-      text: "lorem ipsum dolor sit amet euy"
-    },
-    {
-      id: 4,
-      sender: "me",
-      text: "lorem ipsum dolor sit amet euy lorem ipsum dolor sit amet euy"
-    }
-  ]
 }
 
 export default async function Chat({ params }: { params: Promise<IParams> }) {
   const { conversationId } = await params;
   const conversation = await getConversationById(conversationId);
   const currentUser = await getCurrentUser();
-  console.log(conversation);
+  const otherUser = conversation?.users[0].User;
+  // redirect when conversation is null
+  conversation ?? redirect('/chat');
 
   return (
     <div className="flex flex-col flex-grow h-screen relative">
-      <div className="sticky w-full ">
+      <div className="sticky w-full">
         <div className="h-16 border-b border-zinc-700 flex items-center px-4 gap-4">
           <div className="w-10">
             <div className="w-12 h-12 rounded-full bg-zinc-700 flex justify-center items-center text-2xl font-semibold">
-              {data.name[0]}
+              {(otherUser?.name as string)[0]}
             </div>
           </div>
-          <h2 className="text-lg font-medium text-zinc-200">{data.name}</h2>
+          <h2 className="text-lg font-medium text-zinc-200">{otherUser?.name}</h2>
         </div>
       </div>
 

@@ -9,7 +9,10 @@ const getConversationById = async (id: string) => {
     }
     const conversation = await prisma.conversation.findFirst({
       where: {
-        id: id
+        id: id,
+        users: {
+          some: { userId: currentUser.id }
+        }
       },
       include: {
         messages: true,
@@ -29,8 +32,9 @@ const getConversationById = async (id: string) => {
           }
         }
       }
-    })
-    return conversation
+    });
+
+    return conversation;
   } catch (err: any) {
     return null;
   }

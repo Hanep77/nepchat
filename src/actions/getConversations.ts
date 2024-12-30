@@ -38,7 +38,7 @@ const getConversations = async () => {
         }
       },
       orderBy: {
-        lastMessageAt: "desc"
+        lastMessageAt: "asc"
       }
     });
 

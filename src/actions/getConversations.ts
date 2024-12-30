@@ -11,7 +11,8 @@ const getConversations = async () => {
 
     const conversations = prisma.conversation.findMany({
       where: {
-        users: { some: { userId: currentUser.id } }
+        users: { some: { userId: currentUser.id } },
+        messages: { some: {} }
       },
       include: {
         users: {
@@ -28,6 +29,12 @@ const getConversations = async () => {
               }
             }
           }
+        },
+        messages: {
+          orderBy: {
+            createdAt: "desc"
+          },
+          take: 1
         }
       },
       orderBy: {

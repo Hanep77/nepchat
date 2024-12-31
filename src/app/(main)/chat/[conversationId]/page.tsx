@@ -2,6 +2,7 @@ import getConversationById from "@/actions/getConversationByid";
 import MessageInput from "../components/messageInput";
 import getCurrentUser from "@/actions/getCurrentUser";
 import { redirect } from "next/navigation";
+import formatDate from "@/utils/formatDate";
 
 export interface IParams {
   conversationId: string
@@ -33,7 +34,10 @@ export default async function Chat({ params }: { params: Promise<IParams> }) {
           <div key={index}
             className={`flex ${message.senderId == currentUser?.id && "justify-end"} ${conversation?.messages[index - 1]?.senderId == message.senderId ? "mt-1" : "mt-2"}`}>
             <div className={`py-2 px-4 ${message.senderId == currentUser?.id ? "rounded-l-3xl rounded-tr-3xl bg-zinc-700" : "rounded-r-3xl rounded-tl-3xl bg-zinc-800 "} max-w-96 text-wrap`}>
-              {message.body}
+              <p>
+                {message.body}
+              </p>
+              <p className="text-xs text-zinc-400 text-end">{formatDate(message.createdAt, true)}</p>
             </div>
           </div>
         ))}

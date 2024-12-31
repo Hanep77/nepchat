@@ -1,7 +1,7 @@
 "use client"
 
+import formatDate from "@/utils/formatDate";
 import { Message } from "@prisma/client";
-import { format, isToday, isYesterday } from "date-fns";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -12,16 +12,8 @@ export default function ConversationBox({ name, id, lastMessage }: { name: strin
   const firstLetterName = name?.[0];
 
   useEffect(() => {
-    const parsedDate = lastMessage.createdAt;
-
     setMessageDate(() => {
-      if (isToday(parsedDate)) {
-        return `Today ${format(parsedDate, "HH:mm")}`;
-      } else if (isYesterday(parsedDate)) {
-        return `Yesterday ${format(parsedDate, "HH:mm")}`;
-      } else {
-        return format(parsedDate, "dd/MM/yy");
-      }
+      return formatDate(lastMessage.createdAt);
     })
   }, []);
 

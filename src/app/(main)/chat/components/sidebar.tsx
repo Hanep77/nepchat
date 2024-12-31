@@ -4,7 +4,6 @@ import { LiaSearchSolid } from "react-icons/lia";
 
 export default async function Sidebar() {
   const conversations = await getConversations();
-  console.log(conversations);
   return (
     <div className="hidden py-4 md:block md:w-96 bg-zinc-900 border-e border-zinc-700">
       <h2 className="text-2xl font-bold italic mb-4 px-3">NepChat</h2>

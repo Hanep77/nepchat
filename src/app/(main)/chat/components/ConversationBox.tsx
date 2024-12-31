@@ -4,18 +4,10 @@ import formatDate from "@/utils/formatDate";
 import { Message } from "@prisma/client";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
 
 export default function ConversationBox({ name, id, lastMessage }: { name: string | null, id: string, lastMessage: Message }) {
-  const [messageDate, setMessageDate] = useState<string>()
   const param = useParams();
   const firstLetterName = name?.[0];
-
-  useEffect(() => {
-    setMessageDate(() => {
-      return formatDate(lastMessage.createdAt);
-    })
-  }, []);
 
   return (
     <Link href={"/chat/" + id}
@@ -28,7 +20,7 @@ export default function ConversationBox({ name, id, lastMessage }: { name: strin
           <h3 className="text-lg ">
             {name}
           </h3>
-          <p className="text-sm text-zinc-400 font-normal">{messageDate}</p>
+          <p className="text-sm text-zinc-400 font-normal">{formatDate(lastMessage.createdAt)}</p>
         </div>
         <p className="text-zinc-400 font-normal">{lastMessage.body}</p>
       </div>

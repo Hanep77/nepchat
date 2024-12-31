@@ -10,9 +10,6 @@ export default function MessageInput({ conversationId }: { conversationId: strin
       message: message,
     }
     axios.post("/api/messages/create/" + conversationId, data, { headers: { Accept: "application/json" } })
-      .then((response) => {
-        console.log(console.log(response))
-      })
   }
 
   return (

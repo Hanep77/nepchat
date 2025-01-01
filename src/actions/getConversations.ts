@@ -1,7 +1,7 @@
 import getCurrentUser from "./getCurrentUser";
 import prisma from "@/libs/prismadb";
 
-const getConversations = async () => {
+const getConversations = async (name?: string) => {
   try {
     const currentUser = await getCurrentUser();
 
@@ -11,8 +11,25 @@ const getConversations = async () => {
 
     const conversations = prisma.conversation.findMany({
       where: {
-        users: { some: { userId: currentUser.id } },
-        messages: { some: {} }
+        AND: [
+          {
+            users: {
+              some: {
+                userId: currentUser.id,
+              }
+            },
+          },
+          {
+            users: {
+              some: {
+                User: { name: { contains: name, mode: "insensitive" } }
+              }
+            }
+          },
+          {
+            messages: { some: {} }
+          }
+        ]
       },
       include: {
         users: {

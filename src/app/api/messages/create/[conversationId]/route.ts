@@ -1,5 +1,6 @@
 import getCurrentUser from "@/actions/getCurrentUser";
 import prisma from "@/libs/prismadb";
+import { pusherServer } from "@/libs/pusher";
 
 export async function POST(request: Request, { params }: { params: Promise<{ conversationId: string }> }) {
   const body = await request.json();
@@ -17,6 +18,10 @@ export async function POST(request: Request, { params }: { params: Promise<{ con
         senderId: currentUser.id
       }
     })
+
+    await pusherServer.trigger('chat-channel', 'new-message', {
+      createChat
+    });
 
     return Response.json(createChat);
   } catch (err: any) {

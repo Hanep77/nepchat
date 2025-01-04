@@ -26,7 +26,7 @@ const useRoutes = () => {
     {
       label: "logout",
       href: "#",
-      onClick: () => signOut(),
+      onClick: () => confirm("you want to logout?") && signOut(),
       icon: CiLogout
     }
   ], [pathname, conversationId]);

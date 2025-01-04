@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth"
 import prisma from "@/libs/prismadb";
 
-const getUsers = async () => {
+const getUsers = async (name?: string) => {
   const session = await getServerSession();
 
   if (!session?.user) {
@@ -16,6 +16,10 @@ const getUsers = async () => {
       where: {
         NOT: {
           email: session.user.email
+        },
+        name: {
+          contains: name,
+          mode: "insensitive"
         }
       }
     })

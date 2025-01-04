@@ -18,14 +18,18 @@ export default function Messages({ currentUser, conversation }: ChatProps) {
   useEffect(() => {
     const channel = pusherClient.subscribe("chat-channel");
 
-    channel.bind('new-message', (data: { createChat: Message }) => {
+    const handleNewMessage = (data: { createChat: Message }) => {
       setMessages((prev) => [...prev, data.createChat]);
-    });
-  }, []);
+    }
 
-  useEffect(() => {
-    if (bottomRef.current) {
-      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    channel.bind('new-message', handleNewMessage);
+
+    return () => {
+      channel.unbind('new-message', handleNewMessage);
+      pusherClient.unsubscribe("chat-channel");
+      if (bottomRef.current) {
+        bottomRef.current.scrollIntoView({ behavior: "smooth" });
+      }
     }
   }, [messages]);
 

@@ -23,13 +23,13 @@ export default function Messages({ currentUser, conversation }: ChatProps) {
     }
 
     channel.bind('new-message', handleNewMessage);
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView();
+    }
 
     return () => {
       channel.unbind('new-message', handleNewMessage);
       pusherClient.unsubscribe("chat-channel");
-      if (bottomRef.current) {
-        bottomRef.current.scrollIntoView({ behavior: "smooth" });
-      }
     }
   }, [messages]);
 

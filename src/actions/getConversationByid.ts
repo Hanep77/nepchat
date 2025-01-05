@@ -35,7 +35,7 @@ const getConversationById = async (id: string) => {
     });
 
     return conversation;
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.log(err);
     return null;
   }

@@ -60,7 +60,7 @@ const getConversations = async (name?: string) => {
     });
 
     return conversations;
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.log(err);
     return null;
   }

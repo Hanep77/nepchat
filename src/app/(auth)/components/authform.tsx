@@ -58,7 +58,7 @@ export default function AuthForm() {
           }
 
           if (callback?.ok) {
-            router.push('/users');
+            router.push('/chat');
           }
         })
     }

@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     })
 
     return Response.json(newConversation);
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.log(err)
     return new Response('Internal error', { status: 500 });
   }

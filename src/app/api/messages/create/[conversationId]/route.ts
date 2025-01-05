@@ -24,7 +24,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ con
     });
 
     return Response.json(createChat);
-  } catch (err: any) {
+  } catch (err: unknown) {
     return new Response('Internal error', { status: 500 });
   }
 }

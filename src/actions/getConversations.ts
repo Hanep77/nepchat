@@ -61,6 +61,7 @@ const getConversations = async (name?: string) => {
 
     return conversations;
   } catch (err: any) {
+    console.log(err);
     return null;
   }
 }

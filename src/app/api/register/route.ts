@@ -23,7 +23,7 @@ export async function POST(
     });
 
     return Response.json(user);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.log(error, 'registration error');
     return new Response('Internal Error', { status: 500 });
   }

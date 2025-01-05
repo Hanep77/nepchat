@@ -21,7 +21,12 @@ export default function AuthForm() {
   const [variant, setVariant] = useState<Variant>("LOGIN");
 
   const toggleVariant = useCallback(() => {
-    variant == "LOGIN" ? setVariant("REGISTER") : setVariant("LOGIN");
+    if (variant == "LOGIN") {
+      setVariant("REGISTER")
+    }
+    else {
+      setVariant("LOGIN");
+    }
   }, [variant]);
 
   useEffect(() => {

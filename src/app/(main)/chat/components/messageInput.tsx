@@ -17,7 +17,7 @@ export default function MessageInput({ conversationId }: { conversationId: strin
       <input type="text"
         name="message"
         placeholder="type your message here..."
-        className="h-full rounded flex-grow px-4 bg-zinc-800 border border-zinc-700 outline-none focus:ring-1 ring-zinc-300"
+        className="h-full rounded min-w-32 flex-grow px-4 bg-zinc-800 border border-zinc-700 outline-none focus:ring-1 ring-zinc-300"
         autoComplete="off"
       />
       <button type="submit" className="bg-zinc-800 border border-zinc-700 px-4 rounded hover:bg-zinc-700"><BiSend /></button>

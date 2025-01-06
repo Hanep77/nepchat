@@ -13,7 +13,7 @@ export default async function Chat({ params }: { params: Promise<IParams> }) {
   const currentUser = await getCurrentUser();
   const otherUser = conversation?.users[0].User;
   // redirect when conversation is null
-  if (conversation) redirect('/chat');
+  if (!conversation) redirect('/chat');
 
   return (
     <div className="flex flex-col flex-grow h-screen relative pb-16">

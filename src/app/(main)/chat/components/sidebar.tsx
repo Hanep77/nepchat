@@ -7,8 +7,9 @@ export default async function Sidebar() {
   const cookieStore = await cookies();
   const search = cookieStore.get("search");
   const conversations = await getConversations(search?.value);
+
   return (
-    <div className="hidden py-4 md:block md:w-96 bg-zinc-900 border-e border-zinc-700">
+    <div className="py-4 w-full md:w-96 bg-zinc-900 border-e border-zinc-700">
       <h2 className="text-2xl font-bold italic mb-4 px-3">NepChat</h2>
       <SearchForm search={search?.value} />
       <div>

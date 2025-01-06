@@ -1,5 +1,9 @@
+import Sidebar from "./components/sidebar";
+
 export default function Chat() {
   return (
-    <h1></h1>
+    <div className="flex flex-grow">
+      <Sidebar />
+    </div>
   )
 }

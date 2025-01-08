@@ -29,6 +29,8 @@ export default function ConversationBox({ name, id, lastMessage }: { name: strin
     }
   }, [lastMessageState]);
 
+  if (!lastMessageState) return;
+
   return (
     <Link href={"/chat/" + id}
       className={`block ${param.conversationId == id && "bg-zinc-800"} py-2 px-3 border-b border-zinc-700 font-medium text-start flex items-center gap-2`}>

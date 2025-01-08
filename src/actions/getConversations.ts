@@ -25,9 +25,6 @@ const getConversations = async (name?: string) => {
                 User: { name: { contains: name, mode: "insensitive" } }
               }
             }
-          },
-          {
-            messages: { some: {} }
           }
         ]
       },
@@ -55,7 +52,7 @@ const getConversations = async (name?: string) => {
         }
       },
       orderBy: {
-        lastMessageAt: "asc"
+        lastMessageAt: "desc"
       }
     });
 
